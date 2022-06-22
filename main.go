@@ -1,13 +1,12 @@
 package main
 
 import (
-	"api-test/config"
+	"api-test/engine"
 	"os"
 )
 
 func main() {
 
-	r := config.SetupRouter()
+	r := engine.SetupRouter()
 	r.Run(":" + os.Getenv("PORT"))
-
 }
