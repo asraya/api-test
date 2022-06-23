@@ -5,7 +5,6 @@ type Pagination struct {
 	Page         int         `json:"page"`
 	Sort         string      `json:"sort"`
 	TotalRows    int         `json:"total_rows"`
-	TotalProject int         `json:"total_by_project"`
 	FirstPage    string      `json:"first_page"`
 	PreviousPage string      `json:"previous_page"`
 	NextPage     string      `json:"next_page"`

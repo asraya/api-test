@@ -11,8 +11,6 @@ type TagUpdateDTO struct {
 
 //TagCreateDTO is is a model that clinet use when create a new tag
 type TagCreateDTO struct {
-	Name      string `json:"name" form:"name" binding:"required"`
-	CreatedBy string `gorm:"created_by,omitempty" json:"created_by"`
-	UpdatedBy string `gorm:"updated_by,omitempty" json:"updated_by"`
-	DeletedBy string `gorm:"deleted_by,omitempty" json:"deleted_by"`
+	NewsId int    `json:"news_id" form:"news_id" binding:"required"`
+	Name   string `json:"name" form:"name" binding:"required"`
 }

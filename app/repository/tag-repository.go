@@ -1,4 +1,4 @@
-package repo
+package repository
 
 import (
 	"api-test/dto"
@@ -24,7 +24,7 @@ type tagConnection struct {
 	connection *gorm.DB
 }
 
-//NewTagRepository creates an instance TagRepository
+//NewTagRepository
 func NewTagRepository(dbConn *gorm.DB) TagRepository {
 	return &tagConnection{
 		connection: dbConn,
@@ -33,13 +33,13 @@ func NewTagRepository(dbConn *gorm.DB) TagRepository {
 
 func (db *tagConnection) InsertTag(m models.Tag) models.Tag {
 	db.connection.Save(&m)
-	db.connection.Preload("User").Find(&m)
+	db.connection.Preload("News").Find(&m)
 	return m
 }
 
 func (db *tagConnection) UpdateTag(m models.Tag) models.Tag {
 	db.connection.Save(&m)
-	db.connection.Preload("User").Find(&m)
+	db.connection.Preload("News").Find(&m)
 	return m
 }
 
@@ -49,20 +49,19 @@ func (db *tagConnection) DeleteTag(m models.Tag) {
 
 func (db *tagConnection) FindTagByID(tagID uint64) models.Tag {
 	var tag models.Tag
-	db.connection.Preload("User").Find(&tag, tagID)
+	db.connection.Preload("News").Find(&tag, tagID)
 	return tag
 }
 
 func (db *tagConnection) AllTag() []models.Tag {
 	var tags []models.Tag
-	db.connection.Preload("User").Find(&tags)
+	db.connection.Preload("News").Find(&tags)
 	return tags
 }
 func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryResult, int) {
 
-	var zonesy []models.Tag
+	var tagsy []models.Tag
 	var count int64
-	// var userID models.User
 
 	totalTag, totalRows, totalPages, fromRow, toRow, toPro := 0, 0, 0, 0, 0, 0
 
@@ -99,7 +98,7 @@ func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryRe
 		}
 	}
 
-	find = find.Find(&zonesy)
+	find = find.Find(&tagsy)
 	// has error find data
 	errFind := find.Error
 
@@ -107,7 +106,7 @@ func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryRe
 		return RepositoryResult{Error: errFind}, totalPages
 	}
 
-	pagination.Rows = zonesy
+	pagination.Rows = tagsy
 	// count all data
 	errCount := db.connection.Model(&models.Tag{}).Count(&count).Error
 
@@ -143,7 +142,6 @@ func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryRe
 	if errCountTag != nil {
 		return RepositoryResult{Error: errCountTag}, totalTag
 	}
-	pagination.TotalProject = int(count)
 
 	// calculate total pages
 	totalTag = int(math.Ceil(float64(count)/float64(pagination.Limit))) - 1

@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"api-test/models"
-
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func SetupDatabaseConnection() *gorm.DB {
+func SetupConnection() *gorm.DB {
 	errEnv := godotenv.Load()
 	if errEnv != nil {
 		panic("Failed to load env file")
@@ -23,12 +21,11 @@ func SetupDatabaseConnection() *gorm.DB {
 	dbName := os.Getenv("DB_NAME")
 	dbPort := os.Getenv("DB_PORT")
 
-	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%s", dbUser, dbPass, dbHost, dbName, dbPort)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	psql := fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%s", dbUser, dbPass, dbHost, dbName, dbPort)
+	db, err := gorm.Open(postgres.Open(psql), &gorm.Config{})
 	if err != nil {
 		panic("Failed to create a connection to database")
 	}
-	db.AutoMigrate(&models.News{}, &models.Tag{})
 	return db
 }
 
