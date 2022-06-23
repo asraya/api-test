@@ -54,14 +54,38 @@ func News() {
 
 	var types []models.News
 
+	var type1 = models.News{
+		ID:          1,
+		Name:        "Request News",
+		Status:      "draft",
+		Title:       "a",
+		Description: "b",
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+	types = append(types, type1)
+
 	var type2 = models.News{
-		ID:        1,
-		Name:      "Request News",
-		Status:    "draft",
-		CreatedAt: now,
-		UpdatedAt: now,
+		ID:          2,
+		Name:        "Request News",
+		Status:      "publish",
+		Title:       "a",
+		Description: "b",
+		CreatedAt:   now,
+		UpdatedAt:   now,
 	}
 	types = append(types, type2)
+
+	var type3 = models.News{
+		ID:          3,
+		Name:        "Request News",
+		Status:      "draft",
+		Title:       "a",
+		Description: "b",
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+	types = append(types, type3)
 
 	for _, News := range types {
 		if err := db.Where("name = ?", News.Name).Find(&News).Error; err != nil {

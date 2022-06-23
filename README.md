@@ -7,11 +7,13 @@ DBEVENT=seed go run main.go
 rollback
 DBEVENT=seed go run main.go
 
-News and Topic management
-CRUD ON NEWS AND Tags
-One news can contains multiple tags e.g. "Safe investment" might contains tags
+```
+- News and Topic management
+- CRUD ON NEWS AND Tags
+- One news can contains multiple tags e.g. "Safe investment" might contains tags
 "investment", "mutual fund", etc
-One news can contains multiple tags e.g. "Safe investment" might contains tags
+- One news can contains multiple tags e.g. "Safe investment" might contains tags
 "investment", "mutual fund", etc
-Enable filter by news status ("draft", "deleted", "publish")
-Enable filter news by its topics
+- Enable filter by news status ("draft", "deleted", "publish")
+- Enable filter news by its topics
+```
