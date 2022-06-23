@@ -39,7 +39,7 @@ func (db *newsConnection) InsertNews(m models.News) models.News {
 
 func (db *newsConnection) UpdateNews(m models.News) models.News {
 	db.connection.Save(&m)
-	db.connection.Preload("User").Find(&m)
+	db.connection.Preload("Topic").Find(&m)
 	return m
 }
 
@@ -49,13 +49,13 @@ func (db *newsConnection) DeleteNews(m models.News) {
 
 func (db *newsConnection) FindNewsByID(newsID uint64) models.News {
 	var news models.News
-	db.connection.Preload("User").Find(&news, newsID)
+	db.connection.Preload("Topic").Find(&news, newsID)
 	return news
 }
 
 func (db *newsConnection) AllNews() []models.News {
 	var newss []models.News
-	db.connection.Preload("User").Find(&newss)
+	db.connection.Preload("Topic").Find(&newss)
 	return newss
 }
 func (db *newsConnection) PaginationNews(pagination *dto.Pagination) (RepositoryResult, int) {
@@ -142,7 +142,6 @@ func (db *newsConnection) PaginationNews(pagination *dto.Pagination) (Repository
 	if errCountNews != nil {
 		return RepositoryResult{Error: errCountNews}, totalNews
 	}
-	pagination.TotalProject = int(count)
 
 	// calculate total pages
 	totalNews = int(math.Ceil(float64(count)/float64(pagination.Limit))) - 1

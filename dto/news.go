@@ -10,9 +10,11 @@ type NewsUpdateDTO struct {
 }
 
 type NewsCreateDTO struct {
-	TagsID    uint64 `gorm:"tags_id" json:"tags_id"`
-	Name      string `json:"name" form:"name" binding:"required"`
-	CreatedBy string `gorm:"created_by,omitempty" json:"created_by"`
-	UpdatedBy string `gorm:"updated_by,omitempty" json:"updated_by"`
-	DeletedBy string `gorm:"deleted_by,omitempty" json:"deleted_by"`
+	TagsID      uint64 `gorm:"tags_id" json:"tags_id"`
+	Title       string `gorm:"type:varchar(255)" json:"title"`
+	Description string `gorm:"type:text" json:"description"`
+	Name        string `json:"name" form:"name" binding:"required"`
+	CreatedBy   string `gorm:"created_by,omitempty" json:"created_by"`
+	UpdatedBy   string `gorm:"updated_by,omitempty" json:"updated_by"`
+	DeletedBy   string `gorm:"deleted_by,omitempty" json:"deleted_by"`
 }

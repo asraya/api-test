@@ -5,7 +5,6 @@ import (
 	"api-test/helpers"
 	"api-test/models"
 	"api-test/service"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -46,7 +45,7 @@ func (c *tagHandler) FindByID(context *gin.Context) {
 	}
 
 	var tag models.Tag = c.tagService.FindByID(id)
-	if (tag == models.Tag{}) {
+	if &tag == &tag {
 		res := helpers.BuildErrorResponse("Data not found", "No data with given id", helpers.EmptyObj{})
 		context.JSON(http.StatusNotFound, res)
 	} else {
@@ -92,8 +91,7 @@ func (c *tagHandler) Delete(ctx *gin.Context) {
 	}
 	project.ID = project_id
 
-	userID := fmt.Sprintf("news_id")
-	if c.tagService.IsAllowedToEdit(userID, project.ID) {
+	if c.tagService.IsAllowedToEdit(project.ID) {
 
 		c.tagService.Delete(project)
 		res := helpers.BuildResponse(true, "Deleted", helpers.EmptyObj{})

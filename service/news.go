@@ -19,7 +19,7 @@ type NewsService interface {
 	Delete(b models.News)
 	All() []models.News
 	FindByID(newsID uint64) models.News
-	IsAllowedToEdit(userID string, newsID uint64) bool
+	IsAllowedToEdit(newsID uint64) bool
 	PaginationNews(repo repository.NewsRepository, context *gin.Context, pagination *dto.Pagination) dto.Response
 }
 
@@ -66,10 +66,10 @@ func (service *newsService) FindByID(newsID uint64) models.News {
 	return service.newsRepository.FindNewsByID(newsID)
 }
 
-func (service *newsService) IsAllowedToEdit(tagsID string, newsID uint64) bool {
+func (service *newsService) IsAllowedToEdit(newsID uint64) bool {
 	b := service.newsRepository.FindNewsByID(newsID)
-	id := fmt.Sprintf("%v", b.CreatedBy)
-	return tagsID == id
+	id := (b.ID)
+	return newsID == id
 }
 func (service *newsService) PaginationNews(repo repository.NewsRepository, context *gin.Context, pagination *dto.Pagination) dto.Response {
 

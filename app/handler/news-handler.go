@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -71,6 +70,7 @@ func (c *newsHandler) Insert(context *gin.Context) {
 
 func (c *newsHandler) Update(context *gin.Context) {
 	var newsUpdateDTO dto.NewsUpdateDTO
+
 	errDTO := context.ShouldBind(&newsUpdateDTO)
 	if errDTO != nil {
 		res := helpers.BuildErrorResponse("Failed to process request", errDTO.Error(), helpers.EmptyObj{})
@@ -78,14 +78,10 @@ func (c *newsHandler) Update(context *gin.Context) {
 		return
 	}
 
-	userID := fmt.Sprintf("tags_id")
-	if c.newsService.IsAllowedToEdit(userID, newsUpdateDTO.ID) {
+	if c.newsService.IsAllowedToEdit(newsUpdateDTO.ID) {
 		result := c.newsService.Update(newsUpdateDTO)
 		response := helpers.BuildResponse(true, "OK", result)
 		context.JSON(http.StatusOK, response)
-	} else {
-		response := helpers.BuildErrorResponse("You dont have permission", "You are not the owner", helpers.EmptyObj{})
-		context.JSON(http.StatusForbidden, response)
 	}
 }
 
@@ -97,8 +93,7 @@ func (c *newsHandler) Delete(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, response)
 	}
 	news.ID = id
-	userID := fmt.Sprintf("tags_id")
-	if c.newsService.IsAllowedToEdit(userID, news.ID) {
+	if c.newsService.IsAllowedToEdit(news.ID) {
 		c.newsService.Delete(news)
 		res := helpers.BuildResponse(true, "Deleted", helpers.EmptyObj{})
 		context.JSON(http.StatusOK, res)

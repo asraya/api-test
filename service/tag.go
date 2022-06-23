@@ -18,7 +18,7 @@ type TagService interface {
 	Delete(b models.Tag)
 	All() []models.Tag
 	FindByID(tagID uint64) models.Tag
-	IsAllowedToEdit(userID string, tagID uint64) bool
+	IsAllowedToEdit(tagID uint64) bool
 	PaginationTag(repo repository.TagRepository, context *gin.Context, pagination *dto.Pagination) dto.Response
 }
 
@@ -42,11 +42,12 @@ func (service *tagService) Insert(b dto.TagCreateDTO) models.Tag {
 	res := service.tagRepository.InsertTag(tag)
 	return res
 }
-func (service *tagService) IsAllowedToEdit(userID string, tagID uint64) bool {
+func (service *tagService) IsAllowedToEdit(tagID uint64) bool {
 	b := service.tagRepository.FindTagByID(tagID)
-	id := fmt.Sprintf("%v", b.CreatedBy)
-	return userID == id
+	id := (b.ID)
+	return tagID == id
 }
+
 func (service *tagService) Update(b dto.TagUpdateDTO) models.Tag {
 	tag := models.Tag{}
 	err := smapping.FillStruct(&tag, smapping.MapFields(&b))

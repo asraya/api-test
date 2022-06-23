@@ -11,7 +11,6 @@ type TagUpdateDTO struct {
 
 //TagCreateDTO is is a model that clinet use when create a new tag
 type TagCreateDTO struct {
-	NewsId      uint64 `json:"news_id" form:"news_id" binding:"required"`
-	Title       string `json:"title" form:"title" binding:"required"`
-	Description string `json:"description" form:"description" binding:"required"`
+	NewsId int    `json:"news_id" form:"news_id" binding:"required"`
+	Name   string `json:"name" form:"name" binding:"required"`
 }

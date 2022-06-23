@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"api-test/models"
-
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -28,7 +26,6 @@ func SetupConnection() *gorm.DB {
 	if err != nil {
 		panic("Failed to create a connection to database")
 	}
-	db.AutoMigrate(&models.News{}, &models.Tag{})
 	return db
 }
 

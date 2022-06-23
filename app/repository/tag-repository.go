@@ -39,7 +39,7 @@ func (db *tagConnection) InsertTag(m models.Tag) models.Tag {
 
 func (db *tagConnection) UpdateTag(m models.Tag) models.Tag {
 	db.connection.Save(&m)
-	db.connection.Preload("User").Find(&m)
+	db.connection.Preload("News").Find(&m)
 	return m
 }
 
@@ -49,13 +49,13 @@ func (db *tagConnection) DeleteTag(m models.Tag) {
 
 func (db *tagConnection) FindTagByID(tagID uint64) models.Tag {
 	var tag models.Tag
-	db.connection.Preload("User").Find(&tag, tagID)
+	db.connection.Preload("News").Find(&tag, tagID)
 	return tag
 }
 
 func (db *tagConnection) AllTag() []models.Tag {
 	var tags []models.Tag
-	db.connection.Preload("User").Find(&tags)
+	db.connection.Preload("News").Find(&tags)
 	return tags
 }
 func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryResult, int) {
@@ -142,7 +142,6 @@ func (db *tagConnection) PaginationTag(pagination *dto.Pagination) (RepositoryRe
 	if errCountTag != nil {
 		return RepositoryResult{Error: errCountTag}, totalTag
 	}
-	pagination.TotalProject = int(count)
 
 	// calculate total pages
 	totalTag = int(math.Ceil(float64(count)/float64(pagination.Limit))) - 1
